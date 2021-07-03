@@ -9,8 +9,9 @@ Table Structure: Role
 CREATE TABLE `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `role` int NOT NULL,
+  `creation_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
 Table Structure: Student
@@ -54,13 +55,13 @@ CREATE TABLE `user_roles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `role_id` int NOT NULL,
+  `creation_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_ref_idx` (`user_id`),
   KEY `role_ref_idx` (`role_id`),
   CONSTRAINT `role_ref` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 --------------------------------
 Table Structure: Project
