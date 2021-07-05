@@ -1,9 +1,9 @@
 -------------------------------
-MYSQL v8.0
+-- MYSQL v8.0
 -------------------------------
 
 --------------------------------
-Table Structure: Role
+-- Table Structure: Role
 --------------------------------
 
 CREATE TABLE `roles` (
@@ -14,7 +14,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
-Table Structure: Student
+-- Table Structure: Student
 --------------------------------
 
 CREATE TABLE `user` (
@@ -30,7 +30,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
-Table Structure: User
+-- Table Structure: User
 --------------------------------
 
 CREATE TABLE `user` (
@@ -45,7 +45,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
-Table Structure: User_roles
+-- Table Structure: User_roles
 --------------------------------
 
 CREATE TABLE `user_roles` (
@@ -61,7 +61,7 @@ CREATE TABLE `user_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
-Table Structure: Project
+-- Table Structure: Project
 --------------------------------
 
 CREATE TABLE `project` (
@@ -76,5 +76,19 @@ CREATE TABLE `project` (
   CONSTRAINT `student_ref` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--------------------------------
+-- Table Structure: files
+--------------------------------
+
+CREATE TABLE `files` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `content` varchar(45) NOT NULL,
+  `file_type` int NOT NULL,
+  `endpoint` text NOT NULL,
+  `creation_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

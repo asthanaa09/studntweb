@@ -13,11 +13,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import com.student.security.CustomUserDetailsService;
 import com.student.security.JwtAuthenticationEntryPoint;
 import com.student.security.JwtAuthenticationFilter;
+import com.student.utils.CookieHelper;
 
 /**
  * This class for crux of security implementation ref:
@@ -34,6 +37,8 @@ import com.student.security.JwtAuthenticationFilter;
 	prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    String tokenKey = "student-app";
+    
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
@@ -61,18 +66,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	return new BCryptPasswordEncoder();
     }
 
-    // TODO: permits all request for api urls
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-	http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+	http.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 		.antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html",
 			"/**/*.css", "/**/*.js")
 		.permitAll().antMatchers("/auth/**").permitAll()
-		.antMatchers("/api/user/checkUsernameAvailability", "/api/project/**").permitAll().anyRequest()
-		.authenticated();
+		.antMatchers("/api/project/**").permitAll()
+		.antMatchers("/login", "/api/project/**").permitAll().anyRequest()
+		.authenticated()
+		.and()
+		.rememberMe()
+		.key(tokenKey)
+		.rememberMeServices(rememberMeServices());
 
 	// Add our custom JWT security filter
 	http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+    
+    @Bean
+    public RememberMeServices rememberMeServices() {
+	TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices(tokenKey, customUserDetailsService);
+	rememberMeServices.setAlwaysRemember(true);
+	rememberMeServices.setTokenValiditySeconds(CookieHelper.MAX_AGE);
+	return rememberMeServices;
     }
 }

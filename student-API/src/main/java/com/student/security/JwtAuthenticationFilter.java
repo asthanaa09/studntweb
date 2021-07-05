@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.student.utils.CookieHelper;
+
 /**
  * JWTAuthenticationFilter to get the JWT token from the request, validate it,
  * load the user associated with the token, and pass it to Spring Security
@@ -27,6 +30,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String AUTHENTICATION_HEADER = HttpHeaders.AUTHORIZATION;
     private final String TOKEN_PREFIX = "Bearer ";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -62,7 +66,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-	String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+	String bearerToken = request.getHeader(AUTHENTICATION_HEADER);
+	Cookie[] cookies = request.getCookies();
+	
+	if(cookies != null) {
+	    for (Cookie cok : cookies)
+		if (cok.getName().equals(CookieHelper.COOKIE_NAME)) {
+		    bearerToken = TOKEN_PREFIX + cok.getValue();
+		    break;
+		}
+	}
+	
 	if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX))
 	    return bearerToken.substring(7, bearerToken.length());
 	return null;

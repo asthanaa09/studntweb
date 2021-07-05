@@ -5,6 +5,7 @@ import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,14 +47,17 @@ public class ProjectController {
 	    @RequestParam(value = "mobile", required = false) String mobile) {
 
 	ApiResponse response = new ApiResponse();
+	HttpStatus httpStatus = null;
 
 	try {
 	    project.setStudent(getStudent(firstName, lastName, mobile, email));
 	    project = mProjectService.insert(project);
-	    response.setHttpStatusCode(HttpStatus.OK.value());
+	    httpStatus = HttpStatus.OK;
+	    response.setHttpStatusCode(httpStatus.value()	);
 	    response.setResult(project);
 	} catch (Exception e) {
-	    response.setHttpStatusCode(HttpStatus.BAD_REQUEST.value());
+	    httpStatus = HttpStatus.BAD_REQUEST;
+	    response.setHttpStatusCode(httpStatus.value());
 	    response.setMessage(e.getMessage());
 	    e.printStackTrace();
 	}
@@ -83,5 +87,10 @@ public class ProjectController {
 	student.setMobile(mobile);
 
 	return mStudentService.save(student);
+    }
+    
+    @GetMapping("/test")
+    public ResponseEntity<?> testAPI() {
+	return new ResponseEntity<String>("Hello", HttpStatus.OK);
     }
 }

@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import com.student.utils.Utils;
 
@@ -21,6 +24,7 @@ import lombok.Setter;
  *
  */
 @Entity
+@Table(name = "files")
 @Setter
 @Getter
 public class Files extends BaseEntity {
@@ -29,7 +33,7 @@ public class Files extends BaseEntity {
      * Format to set file endpoint - projects/[STUDENT_ID]/[FILE_TYPE]/
      * 
      */
-    public static final String PROJECT_FILE_ENDPOINT_FORMAT = "E:\\projects\\%s\\%s";
+    public static final String PROJECT_FILE_ENDPOINT_FORMAT = "D:\\projects\\%s\\%s";
 
     /**
      * TODO: Add validation attributes e.g Max size, sequence etc.
@@ -58,6 +62,7 @@ public class Files extends BaseEntity {
     String content;
 
     @Column(name = "file_type")
+    @Enumerated(EnumType.ORDINAL)
     FileType fileType;
 
     @Column(name = "endpoint")

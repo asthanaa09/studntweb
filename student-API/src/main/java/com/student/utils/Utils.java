@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.student.models.User;
+import com.student.security.CustomUserDetailsService;
 import com.student.security.UserPrincipal;
 
 public class Utils {
@@ -24,6 +25,10 @@ public class Utils {
 
     public static User getLoggedInUser() {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+	if(auth.getPrincipal() == null || !(auth.getPrincipal() instanceof CustomUserDetailsService))
+	    return null;
+	
 	User user = ((UserPrincipal) auth.getPrincipal()).getUser();
 	return user;
     }
