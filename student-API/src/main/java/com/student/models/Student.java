@@ -35,67 +35,67 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Student extends BaseEntity {
-	
-	@Column(name = "first_name")
-	String name;
-	
-	@Column(name = "mid_name")
-	String midName;
-	
-	@Column(name = "last_name")
-	String lastName;
-	
-	@Column(name = "mobile")
-	String mobile;
-	
-	@Column(name = "email")
-	@NotNull
-	@NotBlank
-	@Email
-	String email;
-	
-	@Column(name = "dob")
-	@Temporal(TemporalType.DATE)
-	Date dob;
-	
-	@Column(name = "roll_no")
-	String rollNumber;
-	
-	@Column(name = "extras")
-	@Setter(AccessLevel.NONE)
-	@Getter(AccessLevel.NONE)
-	String extrasScript;
-	
-	@Transient
-	@Setter(AccessLevel.NONE)
-	@Getter(AccessLevel.NONE)
-	StudentExtras extras;
-	
-	@Column(name = "update_time")
-	@Temporal(TemporalType.TIMESTAMP)
-	Date updateTime;
-	
-	@PrePersist
-	public void onUpdate() {
-		this.setUpdateTime(Utils.now());
-	}
-	
-	public String getExtrasScript() {
-		return extrasScript;
-	}
 
-	public void setExtrasScript(String extrasScript) {
-		this.extrasScript = extrasScript;
-		this.extras = StudentExtras.fromJSON(extrasScript);
-	}
+    @Column(name = "first_name")
+    String name;
 
-	public StudentExtras getExtras() {
-		return extras;
-	}
+    @Column(name = "mid_name")
+    String midName;
 
-	public void setExtras(StudentExtras extras) {
-		this.extras = extras;
-		if(extras != null)
-			this.extrasScript = this.toString();
-	}
+    @Column(name = "last_name")
+    String lastName;
+
+    @Column(name = "mobile")
+    String mobile;
+
+    @Column(name = "email")
+    @NotNull
+    @NotBlank
+    @Email
+    String email;
+
+    @Column(name = "dob")
+    @Temporal(TemporalType.DATE)
+    Date dob;
+
+    @Column(name = "roll_no")
+    String rollNumber;
+
+    @Column(name = "extras")
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    String extrasScript;
+
+    @Transient
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    StudentExtras extras;
+
+    @Column(name = "update_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    Date updateTime;
+
+    @PrePersist
+    public void onUpdate() {
+	this.setUpdateTime(Utils.now());
+    }
+
+    public String getExtrasScript() {
+	return extrasScript;
+    }
+
+    public void setExtrasScript(String extrasScript) {
+	this.extrasScript = extrasScript;
+	this.extras = StudentExtras.fromJSON(extrasScript);
+    }
+
+    public StudentExtras getExtras() {
+	return extras;
+    }
+
+    public void setExtras(StudentExtras extras) {
+	this.extras = extras;
+	if (extras != null)
+	    this.extrasScript = this.toString();
+    }
 }

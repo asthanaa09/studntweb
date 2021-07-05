@@ -13,9 +13,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 /**
- * commence():  This method is called whenever an exception 
- * is thrown due to an unauthenticated user trying 
- * to access a resource that requires authentication.
+ * commence(): This method is called whenever an exception is thrown due to an
+ * unauthenticated user trying to access a resource that requires
+ * authentication.
  * 
  * @author Anurag Asthana
  *
@@ -23,12 +23,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Override
-	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			AuthenticationException e) throws IOException, ServletException {
-		logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
-		httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-	}
+    @Override
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+	    AuthenticationException e) throws IOException, ServletException {
+	logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
+	httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+    }
 }

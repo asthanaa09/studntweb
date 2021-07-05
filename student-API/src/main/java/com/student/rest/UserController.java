@@ -26,58 +26,58 @@ import com.student.service.UserService;
 @RequestMapping("/auth")
 public class UserController {
 
-	@Autowired
-	UserRepository mUserRepository;
-	
-	@Autowired
-	AuthenticationManager mAuthenticationManager;
-	@Autowired
-	JwtTokenProvider mTokenProvider;
-	@Autowired
-	private UserService mUserService;
-	
-	/**
-	 * Is a prefered way to get user details as request body 
-	 * or using request headers
-	 * 
-	 * @param loginRequest
-	 * @return
-	 */
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-		LoginResponse authResponse = new LoginResponse();
-		
-		try {
-			Authentication auth = mAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), 
-					request.getPassword())); 
-			
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			User user = ((UserPrincipal) auth.getPrincipal()).getUser();
-			user.setPassword(null);
-			
-			authResponse = new LoginResponse();
-			String token = mTokenProvider.generateToken(auth);
-			authResponse.setToken(token);
-			authResponse.setUser(user);
-			authResponse.setMessage("Successfully logged in");
-			authResponse.setHttpStatusCode(HttpStatus.OK.ordinal());
-			
-		} catch (Exception e) {
-			authResponse.setMessage(e.getMessage());
-			authResponse.setHttpStatusCode(HttpStatus.BAD_REQUEST.ordinal());
-		}
-		
-		return new ResponseEntity<LoginResponse>(authResponse, HttpStatus.OK);
+    @Autowired
+    UserRepository mUserRepository;
+
+    @Autowired
+    AuthenticationManager mAuthenticationManager;
+    @Autowired
+    JwtTokenProvider mTokenProvider;
+    @Autowired
+    private UserService mUserService;
+
+    /**
+     * Is a prefered way to get user details as request body or using request
+     * headers
+     * 
+     * @param loginRequest
+     * @return
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+	LoginResponse authResponse = new LoginResponse();
+
+	try {
+	    Authentication auth = mAuthenticationManager.authenticate(
+		    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+	    SecurityContextHolder.getContext().setAuthentication(auth);
+	    User user = ((UserPrincipal) auth.getPrincipal()).getUser();
+	    user.setPassword(null);
+
+	    authResponse = new LoginResponse();
+	    String token = mTokenProvider.generateToken(auth);
+	    authResponse.setToken(token);
+	    authResponse.setUser(user);
+	    authResponse.setMessage("Successfully logged in");
+	    authResponse.setHttpStatusCode(HttpStatus.OK.ordinal());
+
+	} catch (Exception e) {
+	    authResponse.setMessage(e.getMessage());
+	    authResponse.setHttpStatusCode(HttpStatus.BAD_REQUEST.ordinal());
 	}
-	
-	/**
-	 * TODO: Do it by standard manner
-	 * 
-	 * @param user
-	 * @return
-	 */
-	@PostMapping("/signup")
-	public ResponseEntity<?> create(@RequestBody SignupRequest signUpRequest) {
-		return new ResponseEntity<UserView>(mUserService.createUser(signUpRequest), HttpStatus.OK);
-	}
+
+	return new ResponseEntity<LoginResponse>(authResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Register new user
+     * 
+     * @param user
+     * @return
+     */
+    @PostMapping("/signup")
+    public ResponseEntity<?> create(@RequestBody SignupRequest signUpRequest) {
+	return new ResponseEntity<UserView>(mUserService.createUser(signUpRequest), HttpStatus.OK);
+    }
 }

@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LoginResponse {
-	
-	Integer httpStatusCode;
-	String message;
-	String token;
-	User user;
+
+    Integer httpStatusCode;
+    String message;
+    String token;
+    User user;
 }

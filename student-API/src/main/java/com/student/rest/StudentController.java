@@ -15,9 +15,9 @@ import com.student.models.Student;
 @RequestMapping("/api/student")
 @RolesAllowed("ROLE_ADMIN")
 public class StudentController {
-	
-	@PostMapping("")
-	public ResponseEntity<?> create(@RequestBody Student student) {
-		return new ResponseEntity<String>("Success", HttpStatus.OK);
-	}
+
+    @PostMapping("")
+    public ResponseEntity<?> create(@RequestBody Student student) {
+	return new ResponseEntity<String>("Success", HttpStatus.OK);
+    }
 }

@@ -20,11 +20,11 @@ import lombok.ToString;
 @Table(name = "user_roles")
 public class UserRoles extends BaseEntity {
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	User user;
-	
-	@ManyToOne
-	@JoinColumn
-	Role role;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @ManyToOne
+    @JoinColumn
+    Role role;
 }

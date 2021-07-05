@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class ApiResponse {
 
-	Integer httpStatusCode;
-	String message;
-	Object result;
+    Integer httpStatusCode;
+    String message;
+    Object result;
 }

@@ -17,20 +17,17 @@ CREATE TABLE `roles` (
 Table Structure: Student
 --------------------------------
 
-CREATE TABLE `student` (
+CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) NOT NULL,
-  `mid_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `mobile` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `dob` varchar(45) DEFAULT NULL,
-  `roll_no` varchar(45) DEFAULT NULL,
-  `extras` text,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `student_id` bigint DEFAULT NULL,
+  `access_time` datetime DEFAULT NULL,
+  `active` int NOT NULL DEFAULT '0',
   `creation_time` datetime NOT NULL,
   `update_time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`,`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --------------------------------
 Table Structure: User

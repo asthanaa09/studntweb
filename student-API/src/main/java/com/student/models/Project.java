@@ -1,6 +1,5 @@
 package com.student.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -26,24 +25,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Project extends BaseEntity {
-	
-	@Column(name = "name")
-	String name;
-	
-	@ManyToOne
-	@JoinColumn(name = "photo_id")
-	Files photo;
-	
-	@ManyToOne
-	@JoinColumn(name = "student_id")
-	Student student;
-	
-	/**
-	 * Project duration in days
-	 */
-	@Column(name = "duration")
-	Integer duration;
-	
-	@Transient
-	String base64encoding;
+
+    @Column(name = "name")
+    String name;
+
+    @ManyToOne
+    @JoinColumn(name = "photo_id")
+    Files photo;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    Student student;
+
+    /**
+     * Project duration in days
+     */
+    @Column(name = "duration")
+    Integer duration;
+
+    @Transient
+    String base64encoding;
 }

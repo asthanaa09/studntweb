@@ -19,65 +19,65 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class JwtTokenProvider {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Value("${com.student.jwtSecret}")
-	private String jwtSecret;
+    @Value("${com.student.jwtSecret}")
+    private String jwtSecret;
 
-	@Value("${con.student.jwtExpirationInMs}")
-	private int jwtExpirationInMs;
+    @Value("${con.student.jwtExpirationInMs}")
+    private int jwtExpirationInMs;
 
-	public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication) {
 
-		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+	UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-		Date now = new Date();
-		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+	Date now = new Date();
+	Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
-		return Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(new Date())
-				.setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	return Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(new Date())
+		.setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+    }
+
+    /**
+     * User id from jwt toke, for token owner
+     * 
+     * @param token
+     * @return
+     */
+    public Long getUserIdFromJWT(String token) {
+	Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+
+	return Long.parseLong(claims.getSubject());
+    }
+
+    /**
+     * Validating provided token at login and api calling
+     * 
+     * @param authToken
+     * @return
+     */
+    public boolean validateToken(String authToken) {
+
+	try {
+	    Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+	    return true;
+
+	} catch (SignatureException ex) {
+	    logger.error("Invalid JWT signature");
+	    ex.printStackTrace();
+	} catch (MalformedJwtException ex) {
+	    logger.error("Invalid JWT token");
+	    ex.printStackTrace();
+	} catch (ExpiredJwtException ex) {
+	    logger.error("Expired JWT token");
+	    ex.printStackTrace();
+	} catch (UnsupportedJwtException ex) {
+	    logger.error("Unsupported JWT token");
+	    ex.printStackTrace();
+	} catch (IllegalArgumentException ex) {
+	    logger.error("JWT claims string is empty.");
+	    ex.printStackTrace();
 	}
-
-	/**
-	 * User id from jwt toke, for token owner
-	 * 
-	 * @param token
-	 * @return
-	 */
-	public Long getUserIdFromJWT(String token) {
-		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-
-		return Long.parseLong(claims.getSubject());
-	}
-
-	/**
-	 * Validating provided token at login and api calling
-	 * 
-	 * @param authToken
-	 * @return
-	 */
-	public boolean validateToken(String authToken) {
-
-		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-			return true;
-
-		} catch (SignatureException ex) {
-			logger.error("Invalid JWT signature");
-			ex.printStackTrace();
-		} catch (MalformedJwtException ex) {
-			logger.error("Invalid JWT token");
-			ex.printStackTrace();
-		} catch (ExpiredJwtException ex) {
-			logger.error("Expired JWT token");
-			ex.printStackTrace();
-		} catch (UnsupportedJwtException ex) {
-			logger.error("Unsupported JWT token");
-			ex.printStackTrace();
-		} catch (IllegalArgumentException ex) {
-			logger.error("JWT claims string is empty.");
-			ex.printStackTrace();
-		}
-		return false;
-	}
+	return false;
+    }
 }

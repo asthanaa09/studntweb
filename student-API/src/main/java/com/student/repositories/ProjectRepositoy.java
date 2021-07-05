@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.student.models.Project;
 
 @Repository
-public interface ProjectRepositoy extends JpaRepository<Project, Long>{
+public interface ProjectRepositoy extends JpaRepository<Project, Long> {
 
-	public List<Project> findAllByStudentIdIn(List<Long> studentIDs);
+    public List<Project> findAllByStudentIdIn(List<Long> studentIDs);
 }

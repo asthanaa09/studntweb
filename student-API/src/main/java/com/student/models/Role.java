@@ -15,16 +15,16 @@ import lombok.Setter;
 @Getter
 public class Role extends BaseEntity {
 
-	public enum RoleType {
-		STUDENT, 
-		TEACHER,
-		/**
-		 * Allows User to manage application
-		 */
-		ADMIN
-	}
+    public enum RoleType {
+	STUDENT, 
+	TEACHER,
+	/**
+	 * Allows User to manage application
+	 */
+	ADMIN
+    }
 
-	@Column(name = "role")
-	@Enumerated(EnumType.ORDINAL)
-	private RoleType roleType;
+    @Column(name = "role")
+    @Enumerated(EnumType.ORDINAL)
+    private RoleType roleType;
 }

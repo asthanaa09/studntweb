@@ -25,49 +25,49 @@ import lombok.Setter;
 @Getter
 public class Files extends BaseEntity {
 
-	
-	/**
-	 * Format to set file endpoint - projects/[STUDENT_ID]/[FILE_TYPE]/
-	 * 
-	 * For testing sture in E drive - 
-	 */
-	public static final String PROJECT_FILE_ENDPOINT_FORMAT = "E:\\projects\\%s\\%s";
-	
-	/**
-	 * TODO: Add validation attributes e.g Max size, sequence etc.
-	 *
-	 */
-	@AllArgsConstructor
-	public enum FileType {
-		IMAGE("img", Arrays.asList("jpg", "jpeg", "png"));
-		
-		String tag;
-		List<String> supportedExtensions;
-		public String getTag() {
-			return tag;
-		}
-		public List<String> getSupportedExtensions() {
-			return supportedExtensions;
-		}
-	}
-	
-	@Column(name = "name")
-	String name;
-	
-	@Column(name = "content")
-	String content;
-	
-	@Column(name = "file_type")
-	FileType fileType;
+    /**
+     * Format to set file endpoint - projects/[STUDENT_ID]/[FILE_TYPE]/
+     * 
+     */
+    public static final String PROJECT_FILE_ENDPOINT_FORMAT = "E:\\projects\\%s\\%s";
 
-	@Column(name = "endpoint")
-	String endPoint;
-	
-	@Column(name = "update_time")
-	Date updateTime;
-	
-	@PrePersist
-	public void onUpdate() {
-		this.setUpdateTime(Utils.now());
+    /**
+     * TODO: Add validation attributes e.g Max size, sequence etc.
+     *
+     */
+    @AllArgsConstructor
+    public enum FileType {
+	IMAGE("img", Arrays.asList("jpg", "jpeg", "png"));
+
+	String tag;
+	List<String> supportedExtensions;
+
+	public String getTag() {
+	    return tag;
 	}
+
+	public List<String> getSupportedExtensions() {
+	    return supportedExtensions;
+	}
+    }
+
+    @Column(name = "name")
+    String name;
+
+    @Column(name = "content")
+    String content;
+
+    @Column(name = "file_type")
+    FileType fileType;
+
+    @Column(name = "endpoint")
+    String endPoint;
+
+    @Column(name = "update_time")
+    Date updateTime;
+
+    @PrePersist
+    public void onUpdate() {
+	this.setUpdateTime(Utils.now());
+    }
 }
